@@ -1,8 +1,12 @@
 <!--pages/home/home.wxml-->
 <view>
-  <swiper>
-    <image></image>
+  <swiper indicator-dots='true' autoplay='true' class='swiper'>
+    <block wx:for='{{bannerArr}}' wx:key='{{index}}'>
+      <swiper-item class='banner-item'>
+        <image mode='aspectFill' class='item-image' src='{{item.img.url}}'></image>
+      </swiper-item>
+    </block>
   </swiper>
-  <view>
+  <view>qwe
   </view>
 </view>
