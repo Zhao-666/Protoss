@@ -17,9 +17,18 @@ Page({
   _loadData: function () {
     var id = 1
     home.getBannerData(id, (res) => {
-      console.log(res)
       this.setData({
         bannerArr: res
+      })
+    })
+    home.getThemeData((data)=>{
+      this.setData({
+        themeArr:data
+      })
+    })
+    home.getProductsData((data) => {
+      this.setData({
+        productsArr: data
       })
     })
   }
