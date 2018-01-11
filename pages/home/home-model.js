@@ -17,7 +17,6 @@ class Home extends Base {
     var params = {
       url:'theme?ids=1,2,3',
       sCallback:function(data){
-        console.log(data)
         callback && callback(data)
       }
     }
@@ -27,7 +26,6 @@ class Home extends Base {
     var params = {
       url: 'product/recent',
       sCallback: function (data) {
-        console.log(data)
         callback && callback(data)
       }
     }
