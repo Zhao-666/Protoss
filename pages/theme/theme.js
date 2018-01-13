@@ -1,11 +1,13 @@
-// pages/theme/theme.js
+import { Theme } from 'theme-model.js'
+var theme = new Theme()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+
   },
 
   /**
@@ -14,5 +16,24 @@ Page({
   onLoad: function (options) {
     var id = options.id
     var name = options.name
+    this.setData({
+      id,
+      name
+    })
+    this._loadData(options)
   },
+
+  onReady: function () {
+    wx.setNavigationBarTitle({
+      title: this.data.name,
+    })
+  },
+
+  _loadData: function () {
+    theme.getProductsData(this.data.id, (data) => {
+      this.setData({
+        themeInfo: data
+      })
+    })
+  }
 })

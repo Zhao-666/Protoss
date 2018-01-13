@@ -10,7 +10,7 @@
   "window": {
     "navigationBarBackgroundColor": "#AB956D",
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "小程序",
+    "navigationBarTitleText": "",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false
@@ -41,6 +41,10 @@
         "iconPath": "imgs/toolbar/my.png",
         "selectedIconPath": "imgs/toolbar/my@selected.png"
       }
-    ]
+    ],
+    "borderStyle": "white",
+    "selectedColor": "#AB956D",
+    "color": "#989898",
+    "backgroundColor": "#F5F5F5"
   }
 }

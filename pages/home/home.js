@@ -11,7 +11,6 @@ Page({
 
   },
   onLoad: function () {
-    console.log('qwe')
     this._loadData()
   },
   _loadData: function () {
