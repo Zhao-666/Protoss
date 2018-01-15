@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    currentTabsIndex:0,
     productCount: 1,
     countsArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
@@ -35,6 +36,12 @@ Page({
     var selectedCount = this.data.countsArray[index]
     this.setData({
       productCount: selectedCount
+    })
+  },
+  onTabsItemTap: function (event) {
+    var index = product.getDataSet(event, 'index')
+    this.setData({
+      currentTabsIndex: index
     })
   }
 })
