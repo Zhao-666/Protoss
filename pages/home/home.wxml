@@ -28,7 +28,7 @@
     </view>
     <view class='home-main-products'>
       <view class='home-main-header'>最近新品</view>
-      <template is='products' data='{{products:productsArr}}' />
+      <template is='products' data='{{productsArr}}' />
     </view>
   </view>
 </view>

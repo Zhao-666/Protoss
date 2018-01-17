@@ -36,6 +36,7 @@ Page({
       })
     })
   },
+
   changeCategory: function (event) {
     var index = category.getDataSet(event, 'index')
     var id = category.getDataSet(event, 'id')
@@ -49,12 +50,14 @@ Page({
       });
     }
   },
+
   isLoadedData: function (index) {
     if (this.data['categoryInfo' + index]) {
       return true
     }
     return false
   },
+
   getDataObjForBind: function (index, data) {
     var obj = {},
       arr = [0, 1, 2, 3, 4, 5],
@@ -70,6 +73,13 @@ Page({
         return obj;
       }
     }
+  },
+
+  onProductsItemTap: function (event) {
+    var id = category.getDataSet(event, 'id')
+    wx.navigateTo({
+      url: '../product/product?id=' + id,
+    })
   }
 
 })

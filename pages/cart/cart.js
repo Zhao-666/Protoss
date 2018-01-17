@@ -1,66 +1,45 @@
 // pages/cart/cart.js
+import { Cart } from './cart-model.js'
+
+var cart = new Cart()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
-  },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    var cartData = cart.getCartDataFromLocal()
+    var countsInfo = cart.getCartTotalCounts(true)
+
+    this.setData({
+      selectedCounts: countsInfo,
+      cartData
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
+  _calcTotalAccountAndCounts: function (data) {
+    var len = data.length
+    var account = 0 //总价格
+    var selectedCounts = 0 //购买商品的总个数
+    var selectedTypeCounts = 0 //购买商品的种类个数
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
   }
+
 })
