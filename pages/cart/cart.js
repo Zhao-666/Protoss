@@ -24,14 +24,16 @@ Page({
    */
   onShow: function () {
     var cartData = cart.getCartDataFromLocal()
-    var countsInfo = cart.getCartTotalCounts(true)
+    //var countsInfo = cart.getCartTotalCounts(true)
+    var cal = this._calcTotalAccountAndCounts(cartData)
 
     this.setData({
-      selectedCounts: countsInfo,
+      selectedCounts: cal.selectedCounts,
+      selectedTypeCounts: cal.selectedTypeCounts,
+      account: cal.account,
       cartData
     })
   },
-
 
   _calcTotalAccountAndCounts: function (data) {
     var len = data.length
@@ -39,7 +41,65 @@ Page({
     var selectedCounts = 0 //购买商品的总个数
     var selectedTypeCounts = 0 //购买商品的种类个数
 
+    let multiple = 100
 
+    for (let i = 0; i < len; i++) {
+      if (data[i].selectStatus) {
+        account += data[i].counts * multiple * Number(data[i].price) * multiple
+        selectedCounts += data[i].counts
+        selectedTypeCounts++
+      }
+    }
+    return {
+      selectedCounts,
+      selectedTypeCounts,
+      account: account / (multiple * multiple)
+    }
+  },
+
+  toggleSelect: function (event) {
+    var id = cart.getDataSet(event, 'id')
+    var status = cart.getDataSet(event, 'status')
+    var index = this._getProductIndexById(id)
+    var cartData = this.data.cartData
+    cartData[index].selectStatus = !status
+    this.setData({
+      cartData
+    })
+    this._resetCartData()
+  },
+  toggleSelectAll: function (event) {
+    var status = cart.getDataSet(event, 'status') == 'true'
+
+    var cartData = this.data.cartData
+    var len = cartData.length
+    for (let i = 0; i < len; i++) {
+      cartData[i].selectStatus = !status
+    }
+    this.setData({
+      cartData
+    })
+    this._resetCartData()
+  },
+
+  _resetCartData: function () {
+    var newData = this._calcTotalAccountAndCounts(this.data.cartData)
+
+    this.setData({
+      selectedCounts: newData.selectedCounts,
+      selectedTypeCounts: newData.selectedTypeCounts,
+      account: newData.account
+    })
+  },
+
+  _getProductIndexById: function (id) {
+    var data = this.data.cartData
+    var len = data.length
+    for (let i = 0; i < len; i++) {
+      if (data[i].id == id) {
+        return i
+      }
+    }
   }
 
 })
