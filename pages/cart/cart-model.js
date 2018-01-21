@@ -56,6 +56,43 @@ class Cart extends Base {
     }
     return result
   }
+
+  _changeCounts(id, counts) {
+    var cartData = this.getCartDataFromLocal()
+    var hasInfo = this._isHasThatOne(id, cartData)
+    if (hasInfo.index != -1) {
+      if (hasInfo.data.counts > 1) {
+        cartData[hasInfo.index].counts += counts
+      }
+    }
+    wx.setStorageSync(this._storageKeyName, cartData)
+  }
+
+  addCounts(id) {
+    this._changeCounts(id, 1)
+  }
+
+  cutCounts(id) {
+    this._changeCounts(id, -1)
+  }
+
+  deleteProduct(ids) {
+    if (!(ids instanceof Array)) {
+      ids = [ids]
+    }
+    var cartData = this.getCartDataFromLocal()
+    for (let i = 0; i < ids.length; i++) {
+      var hasInfo = this._isHasThatOne(ids[i], cartData)
+      if (hasInfo.index != -1) {
+        cartData.splice(hasInfo.index, 1)
+      }
+    }
+    wx.setStorageSync(this._storageKeyName, cartData)
+  }
+
+  execSetStorageSync(data){
+    wx.setStorageSync(this._storageKeyName, data)
+  }
 }
 
 export { Cart }

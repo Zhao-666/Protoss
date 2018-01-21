@@ -18,6 +18,9 @@ Page({
   onLoad: function (options) {
 
   },
+  onHide: function () {
+    cart.execSetStorageSync(this.data.cartData)
+  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -100,6 +103,40 @@ Page({
         return i
       }
     }
+  },
+
+  changeCounts: function (event) {
+    var type = cart.getDataSet(event, 'type')
+    var id = cart.getDataSet(event, 'id')
+    var index = this._getProductIndexById(id)
+    var counts = 1
+    if (type == 'cut') {
+      counts = -1
+      cart.cutCounts(id)
+    } else {
+      cart.addCounts(id)
+    }
+
+    var cartData = this.data.cartData
+    cartData[index].counts += counts
+    this.setData({
+      cartData
+    })
+    this._resetCartData()
+  },
+
+  delete: function (event) {
+    var id = cart.getDataSet(event, 'id')
+    var index = this._getProductIndexById(id)
+
+    var cartData = this.data.cartData
+    cartData.splice(index, 1)
+    this.setData({
+      cartData
+    })
+
+    this._resetCartData()
+    cart.deleteProduct(id)
   }
 
 })
