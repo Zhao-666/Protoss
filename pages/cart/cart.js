@@ -137,6 +137,12 @@ Page({
 
     this._resetCartData()
     cart.deleteProduct(id)
+  },
+
+  submitOrder: function (event) {
+    wx.navigateTo({
+      url: '../order/order?account=' + this.data.account + '&from=cart',
+    })
   }
 
 })

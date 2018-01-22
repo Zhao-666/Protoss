@@ -23,7 +23,7 @@ class Base {
         params.sCallback && params.sCallback(res.data)
       },
       fail: function (res) {
-
+        params.eCallback && params.eCallback(res.data)
       },
     })
   }
