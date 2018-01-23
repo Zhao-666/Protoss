@@ -24,13 +24,16 @@ Page({
       account,
       orderStatus: 0
     })
+
+    address.getAddressInfo((res) => {
+      this._bindAddressInfo(res)
+    })
   },
 
   editAddress: function (event) {
     var that = this
     wx.chooseAddress({
       success: function (res) {
-        console.log(res)
         var addressInfo = {
           name: res.userName,
           mobile: res.telNumber,

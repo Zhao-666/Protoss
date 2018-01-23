@@ -6,6 +6,20 @@ class Address extends Base {
     super()
   }
 
+  getAddressInfo(callback) {
+    var that = this
+    var param = {
+      url: 'address',
+      sCallback: function (res) {
+        if(res){
+          res.totalDetail = that.setAddressInfo(res)
+          callback && callback(res)
+        }
+      }
+    }
+    this.request(param)
+  }
+
   setAddressInfo(res) {
     var province = res.provinceName || res.province
     var city = res.cityName || res.city

@@ -1,4 +1,5 @@
 import { Config } from 'config.js'
+import { Token } from 'token.js'
 
 class Base {
 
@@ -6,8 +7,11 @@ class Base {
     this.baseRequestUrl = Config.restUrl
   }
 
-  request(params) {
-    var url = this.baseRequestUrl + params.url
+  //当noRefetch为true时不重试获取Token
+  request(params, noRefetch) {
+    var url = this.baseRequestUrl + params.url + '?XDEBUG_SESSION_START=14546'
+    var that = this
+
     if (!params.type) {
       params.type = 'GET'
     }
@@ -16,15 +20,33 @@ class Base {
       data: params.data,
       header: {
         'content-type': 'application/json',
-        'token': wx.getStorageInfoSync('token')
+        'token': wx.getStorageSync('token')
       },
       method: params.type,
       success: function (res) {
-        params.sCallback && params.sCallback(res.data)
+        var code = res.statusCode.toString()
+        var startChar = code.charAt(0)
+        if (startChar == '2') {
+          params.sCallback && params.sCallback(res.data)
+        } else {
+          if (code == '401' && !noRefetch) {
+            that._refetch(params)
+          }
+          if (noRefetch) {
+            params.eCallback && params.eCallback(res.data)
+          }
+        }
       },
       fail: function (res) {
         params.eCallback && params.eCallback(res.data)
       },
+    })
+  }
+
+  _refetch(params) {
+    var token = new Token()
+    token.getTokenFromServer((token) => {
+      this.request(params, true)
     })
   }
 
