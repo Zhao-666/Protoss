@@ -9,7 +9,7 @@ class Base {
 
   //当noRefetch为true时不重试获取Token
   request(params, noRefetch) {
-    var url = this.baseRequestUrl + params.url + '?XDEBUG_SESSION_START=12969'
+    var url = this.baseRequestUrl + params.url + '?XDEBUG_SESSION_START=10534'
     var that = this
 
     if (!params.type) {

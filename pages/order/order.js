@@ -20,26 +20,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var productsArr = cart.getCartDataFromLocal(true)
-    var account = options.account
-
-    this.setData({
-      productsArr,
-      account,
-      orderStatus: 0
-    })
-
-    address.getAddressInfo((res) => {
-      this._bindAddressInfo(res)
-    })
+    var from = options.from
+    if (from == 'cart') {
+      this._fromCart(options.account)
+    } else if (from == 'order') {
+      this._fromOrder(options.id)
+    }
   },
 
   onShow: function () {
     if (this.data.id) {
-      var that = this
-      var id = this.data.id
+      this._fromOrder(this.data.id)
+    }
+  },
+
+  _fromOrder: function (id) {
+    if (id) {
       order.getOrderInfoById(id, (data) => {
-        that.setData({
+        this.setData({
           orderStatus: data.status,
           productsArr: data.snap_items,
           account: data.total_price,
@@ -48,12 +46,23 @@ Page({
             orderNo: data.order_no
           }
         })
+        var addressInfo = data.snap_address
+        addressInfo.totalDetail = address.setAddressInfo(addressInfo)
+        this._bindAddressInfo(addressInfo)
       })
-
-      var addressInfo = data.snap_address
-      addressInfo.totalDetail = address.setAddressInfo(addresInfo)
-      that._bindAddressInfo(addressInfo)
     }
+  },
+
+  _fromCart: function (account) {
+    var productsArr = cart.getCartDataFromLocal(true)
+    this.setData({
+      productsArr,
+      account,
+      orderStatus: 0
+    })
+    address.getAddressInfo((res) => {
+      this._bindAddressInfo(res)
+    })
   },
 
   editAddress: function (event) {

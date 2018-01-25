@@ -53,7 +53,7 @@ class Order extends Base {
 
   getOrderInfoById(id, callback) {
     var param = {
-      url: 'order/' + id,
+      url: 'order/' + id + '?XDEBUG_SESSION_START=10534',
       sCallback: function (data) {
         callback && callback(data)
       },
@@ -66,6 +66,24 @@ class Order extends Base {
 
   execSetStorageSync(data) {
     wx.setStorageSync(this._storageKeyName, data)
+  }
+
+  getOrders(pageIndex, callback) {
+    var param = {
+      url: 'order/by_user',
+      data: { page: pageIndex },
+      type: 'get',
+      sCallback: function (data) {
+        callback && callback(data)
+      }
+    }
+    this.request(param)
+  }
+
+  //是否存在新的订单
+  hasNewOrder() {
+    var flag = wx.getStorageSync(this._storageKeyName)
+    return flag == true
   }
 }
 
