@@ -39,7 +39,7 @@ class Token {
     var that = this
     wx.request({
       url: that.verifyUrl,
-      method: 'get',
+      method: 'post',
       data: {
         token: token
       },
